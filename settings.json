@@ -1,0 +1,30 @@
+{
+  "ProcessNames": ["Codex"],
+  "IncludeGpu": true,
+  "BrightnessLimit": 0.85,
+  "Smoothing": 0.3,
+  "SampleMilliseconds": 1000,
+  "RespectGHelperOff": true,
+  "ThreadId": null,
+  "ModulateSpeedWithLoad": true,
+  "ModelEffects": {
+    "gpt-6.1-sol": "orbit",
+    "gpt-6-sol": "wave",
+    "gpt-6-astra": "twin",
+    "gpt-6.1-terra": "reverse",
+    "gpt-5.6-terra": "bounce",
+    "gpt-6-luna": "pulse",
+    "gpt-5.6-luna": "bounce",
+    "gpt-5.6-sol": "reverse"
+  },
+  "EffortSpeeds": {
+    "none": 0.3,
+    "minimal": 0.45,
+    "low": 0.6,
+    "medium": 0.9,
+    "high": 1.25,
+    "xhigh": 1.65,
+    "max": 2.0,
+    "ultra": 2.4
+  }
+}

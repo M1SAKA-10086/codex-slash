@@ -1,0 +1,14 @@
+bin/
+obj/
+.vs/
+artifacts/
+*.exe
+*.dll
+*.pdb
+*.deps.json
+*.runtimeconfig.json
+*.zip
+restore.json
+status.json
+app.log*
+progress/
