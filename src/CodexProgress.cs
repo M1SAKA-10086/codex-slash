@@ -201,7 +201,8 @@ internal static class ProgressPattern
     }
     internal static byte[] Render(double? percent, string model, string effort, double seconds, double cap, double load, Settings settings)
     {
-        int count = percent.HasValue ? LitCount(percent.Value) : 1;
+        // Unknown progress is an ambient animation across the whole bar, never a percentage estimate.
+        int count = percent.HasValue ? LitCount(percent.Value) : 7;
         var b = new byte[7]; if (count == 0) return b;
         double speed = settings.EffortSpeeds.GetValueOrDefault(effort, 0.9);
         if (settings.ModulateSpeedWithLoad) speed *= 1 + Math.Clamp(load, 0, 100) / 250;
@@ -222,9 +223,10 @@ internal static class ProgressPattern
                 "pulse" => Math.Pow(0.5 + 0.5 * Math.Sin(2 * Math.PI * phase), 3),
                 _ => Glow(d)
             };
-            // Every completed segment remains on; only the highlight circulates inside that completed region.
+            // Known progress keeps its completed region lit. Ambient mode breathes across the whole bar.
             double baseline = percent.HasValue ? 0.26 : 0.07;
-            b[6 - i] = (byte)Math.Clamp(Math.Round(255 * cap * (baseline + (1 - baseline) * value)), 1, 255);
+            double envelope = percent.HasValue ? 1 : 0.75 + 0.25 * Math.Sin(2 * Math.PI * phase / 2);
+            b[6 - i] = (byte)Math.Clamp(Math.Round(255 * cap * envelope * (baseline + (1 - baseline) * value)), 1, 255);
         }
         return b;
     }

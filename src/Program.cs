@@ -274,7 +274,7 @@ internal sealed class Dashboard : Form
                 bool activeTask = task is { Active: true } && task.Updated > DateTimeOffset.UtcNow.AddMinutes(-10);
                 taskPercent = activeTask || recentCompletion ? task?.Percent : null;
                 progressText.Text = taskPercent.HasValue ? $"进度  {taskPercent:0.#}%  ·  {ProgressPattern.LitCount(taskPercent.Value)} / 7 段  ·  {task?.Source}"
-                    : activeTask ? "进度未知 · 等待计划步骤或任务上报" : "等待任务 · 呼吸待机";
+                    : activeTask ? "进度未知 · 整条流动呼吸 · 等待任务上报" : "等待任务 · 整条流动呼吸";
                 numbers.Text = $"{task?.Model ?? "等待模型"}   /   {task?.Effort ?? "unknown"}   /   {ProgressPattern.Effect(task?.Model ?? "unknown", settings)}";
                 detail.Text = $"CPU {sample.Cpu:0}% · GPU {(sample.Gpu.HasValue ? sample.Gpu.Value.ToString("0") + "%" : "—")} · 负荷仅微调流速\n{(progress.ActiveCount > 1 ? $"{progress.ActiveCount} 个活动任务，显示最近活动任务" : "自动读取本地 Codex 任务")} · 关闭窗口后驻留托盘\n{(progress.Error is not null ? progress.Error : "无计划时不估算百分比；支持 --progress 上报")}";
                 string? block = Pattern.BlockReason(paused, suspended, locked, settings.IsCodexRunning(), p, settings,
@@ -294,7 +294,7 @@ internal sealed class Dashboard : Form
                     Files.Log("已接管 Codex 灯效");
                     state = "Codex 正在运行 · 任务进度灯条已接管";
                 }
-                Files.Save(System.IO.Path.Combine(Files.Data, "status.json"), new { state, controlling = device is not null, task, percent = taskPercent, cpu = sample.Cpu, gpu = sample.Gpu, load, activeTasks = progress.ActiveCount, updated = DateTimeOffset.UtcNow });
+                Files.Save(System.IO.Path.Combine(Files.Data, "status.json"), new { state, controlling = device is not null, task, percent = taskPercent, animationMode = taskPercent.HasValue ? "progress" : "ambient", cpu = sample.Cpu, gpu = sample.Gpu, load, activeTasks = progress.ActiveCount, updated = DateTimeOffset.UtcNow });
             }
             if (device is not null && snapshot is not null && profile is not null)
             {

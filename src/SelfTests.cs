@@ -23,7 +23,15 @@ internal static class SelfTests
             Check(Pattern.BlockReason(false, false, false, true, p with { Mode = 99 }, s, false) is not null, "Unknown mode yields safely");
             byte[] Render(double? percent, double sec = 0, string model = "gpt-6.1-sol", string effort = "high") => ProgressPattern.Render(percent, model, effort, sec, 0.6, 0, s);
             Check(Render(0).All(v => v == 0), "Zero completion lights zero progress segments");
-            Check(Render(null).Count(v => v > 0) == 1, "Unknown progress uses a separate idle marker");
+            Check(Render(null).Count(v => v > 0) == 7, "Unknown progress animates the whole bar without inventing a percentage");
+            Check(!Render(null, 0).SequenceEqual(Render(null, 0.21)), "Unknown progress keeps moving and breathing");
+            Check(!Render(null, 0.27, effort: "low").SequenceEqual(Render(null, 0.27, effort: "high")), "Unknown progress follows reasoning effort");
+            Check(!Render(null, 0.27).SequenceEqual(Render(null, 0.27, model: "gpt-6.1-terra")), "Unknown progress follows model style");
+            Check(ProgressPattern.Effects.All(effect => {
+                var ambientSettings = s with { ModelEffects = new() { ["ambient-test"] = effect } };
+                return !ProgressPattern.Render(null, "ambient-test", "high", 0, 0.6, 0, ambientSettings)
+                    .SequenceEqual(ProgressPattern.Render(null, "ambient-test", "high", 0.21, 0.6, 0, ambientSettings));
+            }), "All six styles animate without reported progress");
             Check(Render(10).Count(v => v > 0) == 1 && Render(20).Count(v => v > 0) == 2, "10 percent is one segment, 20 percent is two");
             Check(Render(100).Count(v => v > 0) == 7, "100 percent lights seven segments");
             Check(Render(100).All(v => v <= 153), "Brightness ceiling enforced");
