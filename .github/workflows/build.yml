@@ -1,0 +1,31 @@
+name: Windows build and self-tests
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        shell: pwsh
+        run: ./build.ps1
+      - name: Self-tests without hardware
+        shell: pwsh
+        run: |
+          $testOutput = Join-Path $env:RUNNER_TEMP 'codex-slash-tests.json'
+          $testProcess = Start-Process ./CodexSlash.exe -ArgumentList '--self-test', $testOutput -Wait -PassThru
+          Get-Content $testOutput
+          if ($testProcess.ExitCode -ne 0) { throw 'Self-tests failed' }
+      - name: Package portable build
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory artifacts -Force | Out-Null
+          Compress-Archive -Path CodexSlash.exe,settings.json,README.md,README.zh-CN.md,LICENSE,THIRD-PARTY-NOTICES.md,INTEGRATION.md,TEST-RESULTS.md -DestinationPath artifacts/CodexSlash-win-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CodexSlash-win-x64
+          path: artifacts/CodexSlash-win-x64.zip
