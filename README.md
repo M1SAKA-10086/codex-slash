@@ -35,7 +35,7 @@ The app follows local Codex session JSONL records for model, effort and task lif
 & '.\CodexSlash.exe' --progress 40 --thread 'THREAD_UUID' --turn 'TURN_ID'
 ```
 
-Without progress data, the app displays **unknown progress** with a single-segment idle indicator. It does not manufacture percentages from elapsed time, tool calls, tokens or CPU activity. A successful task-completion event shows 100% briefly. A new turn resets progress.
+Without progress data, the app displays **unknown progress** while the entire bar keeps flowing and breathing using the detected model style and reasoning-effort cadence. It does not manufacture percentages from elapsed time, tool calls, tokens or CPU activity. A successful task-completion event shows 100% briefly. A new turn resets progress.
 
 Codex's on-disk JSONL schema is an implementation detail and may change. Not every task emits structured plans. See [integration instructions](INTEGRATION.md) for milestone reporting. With multiple active chats, the most recently active primary task is selected; set `ThreadId` in `settings.json` to pin one chat.
 
@@ -70,3 +70,4 @@ Codex Slash focuses on seven-segment task completion, model/effort animation map
 ## License and attribution
 
 GPL-3.0. ASUS Slash protocol sequences were adapted from [G-Helper](https://github.com/seerge/g-helper); see [third-party notices](THIRD-PARTY-NOTICES.md). This is an independent companion utility and is not affiliated with ASUS, G-Helper or OpenAI.
+

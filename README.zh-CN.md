@@ -46,7 +46,7 @@
 
 1. 有结构化计划更新：按“已完成步骤数 / 总步骤数”计算进度。这是步骤完成率，不是剩余时间预测。
 2. 任务直接上报百分比：优先采用上报值，且绑定线程和当前轮次，旧任务的百分比不会泄漏到新任务。
-3. 没有进度数据：显示“进度未知”，使用单段待机呼吸；不会根据运行时间、工具次数、Token 或 CPU 负荷伪造完成率。
+3. 没有进度数据：显示“进度未知”，使用整条灯带流动与呼吸闪动，样式和节奏仍跟随模型与推理强度；不会根据运行时间、工具次数、Token 或 CPU 负荷伪造完成率。
 4. 收到成功完成事件：显示 100% 约 12 秒，再回到待机。中断不显示成功。
 
 Codex 并非每次任务都会写入结构化计划。当前桌面版本的本地 JSONL 格式属于实现细节，未来版本改变格式时可能需要更新适配器。程序不连接或重启 Codex 的 app-server，也不修改 Codex 的配置或已有 hooks。
@@ -113,4 +113,5 @@ Codex 并非每次任务都会写入结构化计划。当前桌面版本的本�
 协议参考：[G-Helper SlashDevice.cs](https://github.com/seerge/g-helper/blob/0a1538ac4fb0337f6cf3d64a907acde10c91a3d9/app/AnimeMatrix/SlashDevice.cs)。Codex 计划和轮次事件参考：[官方 App Server 文档](https://learn.chatgpt.com/docs/app-server)。
 
 本项目按 GNU GPL v3 发布，详见 LICENSE 和 THIRD-PARTY-NOTICES.md。
+
 

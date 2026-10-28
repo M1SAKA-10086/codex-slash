@@ -16,3 +16,8 @@
 - 200% DPI 界面渲染已检查，预览见 preview.png。
 
 限制：未通过人工目视确认机盖外侧灯条的实际亮度；硬件验证依据 HID 调用结果和控制器配置回读。未实测其他机型、其他 G-Helper 版本、物理合盖或整机断电。没有修改 G-Helper 配置，也没有修改 Codex hooks。
+
+## v1.0.1 regression
+
+38 local checks passed, including whole-bar ambient motion without progress, all six styles, and model/effort mapping. Runtime verified: version 1.0.1, animationMode=ambient, percent=null. Original hardware validation boundaries above still apply.
+

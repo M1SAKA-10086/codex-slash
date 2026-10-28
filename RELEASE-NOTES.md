@@ -1,36 +1,24 @@
-# v1.0.0 — Initial public preview / 首个公开预览版
+# v1.0.1 — Ambient animation without progress / 无进度流动灯效
 
-Codex Slash turns the built-in seven-segment Slash Lighting bar into a Codex task progress indicator, with model-specific animation styles and reasoning-effort-specific cadence.
+## 更新内容
 
-## Features / 功能
+- 未设置任务进度时，整条 7 段灯带持续流动、呼吸闪动。
+- 无进度动画继续随模型样式、推理强度和可选 CPU/GPU 负荷微调而变化。
+- 界面明确显示“进度未知”，不会虚构完成率。
+- 有进度时，仍按完成率控制常亮区域长度。
+- 托盘、自启和 G-Helper 原灯效恢复功能保留。
 
-- Progress length: 10% → 1 segment; 20% → 2; 100% → 7.
-- Completed regions remain lit with a circulating brightness highlight.
-- Six configurable animation styles; configurable reasoning-effort speeds.
-- Local Codex model/effort/lifecycle detection, structured-plan progress and explicit milestone reporting.
-- Optional CPU/GPU modulation affects speed only.
-- G-Helper coexistence, previous-lighting restoration and watchdog recovery.
-- Windows tray interface and optional login startup.
+## Changes
 
-灯条长度表示任务完成率；已完成区域保持常亮，高光在内部循环。模型决定样式，推理强度决定节奏。缺少进度数据时显示未知，不按运行时间或电脑负荷猜测完成率。
+- Keep the full seven-segment bar flowing and breathing even without reported task progress.
+- Ambient mode follows model style and reasoning-effort cadence; optional load modulation affects speed only.
+- Unknown progress stays unknown. Reported progress still determines illuminated length.
+- Tray behavior, optional login startup and G-Helper restoration are retained.
 
-## Requirements / 使用条件
+## Validation and requirements
 
-- Windows x64 and .NET 10 Windows Desktop Runtime (not bundled).
-- Dedicated ASUS 0B05:193B / COL04 / report 0x5E / seven-segment controller.
-- Tested: ROG Zephyrus G14 GA403UV and G-Helper 0.285.
-- Extract the ZIP and run CodexSlash.exe; keep settings.json beside it.
+38 local regression checks passed, including motion in all six styles with no reported progress. Runtime state was verified as ambient with a null percentage on GA403UV.
 
-## Preview limitations / 预览版限制
+Windows x64, .NET 10 Windows Desktop Runtime, and a supported dedicated ASUS 0B05:193B / COL04 seven-segment controller are required. No 35-segment, AniMe Matrix or PID 19B6 support. Local Codex JSONL changes may require adapter updates. The executable is unsigned. GPL-3.0 with G-Helper protocol attribution.
 
-- No 35-segment, AniMe Matrix or PID 19B6 support.
-- Codex local JSONL changes may require adapter updates; intermediate percentages require structured plans or explicit reports.
-- Audio/battery streaming effects in G-Helper retain ownership.
-- Hardware validation checked HID writes and configuration readback, not visual brightness. Other models, physical lid-close and full power loss are untested.
-- Unsigned executable; .NET runtime required.
-
-## Validation / 验证
-
-34 automated checks passed. On-device animation writes, byte-for-byte controller configuration restoration, forced-process-termination watchdog recovery and model/effort/progress integration were tested. See TEST-RESULTS.md for boundaries.
-
-GPL-3.0. Protocol attribution to G-Helper is included in THIRD-PARTY-NOTICES.md.
+Extract CodexSlash-1.0.1-win-x64.zip and keep settings.json beside CodexSlash.exe. Existing users should exit the old tray program before replacing the executable and retain their preferred settings.json. SHA256SUMS-1.0.1.txt contains checksums for both attached archives.
