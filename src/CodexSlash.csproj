@@ -9,5 +9,9 @@
     <Version>1.0.0</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs;Core.cs;Native.cs;CodexProgress.cs;SelfTests.cs" />
+  </ItemGroup>
 </Project>
